@@ -31,7 +31,7 @@ public class Network implements Runnable {
 		this.packetsCount = 0;
 		while (true) {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -47,7 +47,7 @@ public class Network implements Runnable {
 					}
 				}
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

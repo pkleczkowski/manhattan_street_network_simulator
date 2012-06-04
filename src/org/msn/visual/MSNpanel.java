@@ -32,6 +32,8 @@ import javax.swing.JComboBox;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MSNpanel extends JPanel {
 
@@ -58,6 +60,7 @@ public class MSNpanel extends JPanel {
 	public Network network;
 	private Thread networkThread;
 	private Routing routing;
+	protected static final String OUTPUT_FILE = "res/output.csv";
 	/**
 	 * Create the panel.
 	 */
@@ -423,6 +426,25 @@ public class MSNpanel extends JPanel {
 	
 	public void stop()
 	{
+		//save outputs and parameters in file
+		FileWriter fw;
+		try {
+			fw = new FileWriter(OUTPUT_FILE, true);
+					fw.append(this.parameters.getNetSize() + ";");
+					fw.append(this.parameters.getNewPkt() + ";");
+					fw.append(this.parameters.getBufferOut() + ";");
+					fw.append(this.parameters.getTtl() + ";");
+					fw.append(this.parameters.getRoutingType() + ";");
+					fw.append(this.lbl_results_11.getText() + ";");
+					fw.append(this.lbl_results_21.getText() + ";");
+					fw.append(this.lbl_results_31.getText() + ";");
+					fw.append(this.lbl_results_41.getText() + ";");
+			fw.append(System.getProperty("line.separator"));
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		this.param_spinner_1.setEnabled(true);
 		this.param_spinner_2.setEnabled(true);
 		this.param_spinner_3.setEnabled(true);
@@ -492,11 +514,15 @@ public class MSNpanel extends JPanel {
 		double f = r / 100.0;
 		this.lbl_results_41.setText("" + f);
 		
+		System.out.println("Hops: "+hopsCount + "Delay: "+delay);
 		double delayAvr = ((receivedPacketsCount-1)*(Double.parseDouble(this.lbl_results_11.getText())) 
 				+ (double) delay) / receivedPacketsCount;
-		int q = (int)(delay * 100);
+		int q = (int)(delayAvr * 100);
 		double g = q / 100.0;
 		this.lbl_results_11.setText("" + g);
+		
+		//delay var
+		//for 
 		
 	}
 
