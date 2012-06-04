@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="D:/Studia/ELKA/I semestr [magisterka]/TOPT/Projekt/Manhattan_Street_Network_Simulator/uncommons-maths-1.2.2/uncommons-maths-1.2.2/uncommons-maths-1.2.2.jar"/>
-	<classpathentry kind="lib" path="D:/Studia/ELKA/I semestr [magisterka]/TOPT/Projekt/Manhattan_Street_Network_Simulator/uncommons-maths-1.2.2/uncommons-maths-1.2.2/uncommons-maths-demo-1.2.2.jar"/>
+	<classpathentry kind="lib" path="/home/mateusz-student/Dokumenty/Studia/magisterskie/sem1/TOPT/repozytorium/manhattan_street_network_simulator/uncommons-maths-1.2.2/uncommons-maths-1.2.2/uncommons-maths-1.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
