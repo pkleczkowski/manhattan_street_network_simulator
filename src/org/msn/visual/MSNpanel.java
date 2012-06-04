@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -12,16 +13,25 @@ import java.awt.Insets;
 import javax.swing.SwingConstants;
 
 import org.msn.MSNmain;
+import org.msn.Network;
+import org.msn.Parameters;
+import org.msn.Results;
+import org.msn.Routing;
+
 import java.awt.Font;
 import javax.swing.JSeparator;
 import java.awt.Color;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JComboBox;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MSNpanel extends JPanel {
 
@@ -30,12 +40,32 @@ public class MSNpanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 7052427088447626849L;
 	private MSNmain mainFrame;
+	private JSpinner param_spinner_1;
+	private JSpinner param_spinner_2;
+	private JSpinner param_spinner_3;
+	private JSpinner param_spinner_4;
+	private JComboBox<String> param_comboBox_1;
+	private JButton playButton;
+	private JButton stopButton;
+	private JButton pauseButton;
+	private JLabel lbl_results_11;
+	private JLabel lbl_results_21;
+	private JLabel lbl_results_31;
+	private JLabel lbl_results_41;
+	
+	private Results results;
+	private Parameters parameters;
+	public Network network;
+	private Thread networkThread;
+	private Routing routing;
 	/**
 	 * Create the panel.
 	 */
 	public MSNpanel(MSNmain mainFrame) {
 		this();
 		this.mainFrame = mainFrame;
+		this.results = new Results(this);
+		this.parameters = new Parameters();
 	}
 	
 	@Override
@@ -44,7 +74,7 @@ public class MSNpanel extends JPanel {
 	}
 	
 	public MSNpanel() {
-		setPreferredSize(new Dimension(800, 650));
+		setPreferredSize(new Dimension(500, 650));
 		setVisible(true);
 		removeAll();
 		repaint();
@@ -78,8 +108,8 @@ public class MSNpanel extends JPanel {
 		separator_1.setForeground(Color.BLACK);
 		GridBagConstraints gbc_separator_1 = new GridBagConstraints();
 		gbc_separator_1.gridwidth = 2;
-		gbc_separator_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_separator_1.insets = new Insets(0, 0, 5, 440);
+		gbc_separator_1.fill = GridBagConstraints.BOTH;
+		gbc_separator_1.insets = new Insets(0, 0, 5, 40);
 		gbc_separator_1.gridx = 1;
 		gbc_separator_1.gridy = 2;
 		add(separator_1, gbc_separator_1);
@@ -93,7 +123,7 @@ public class MSNpanel extends JPanel {
 		gbc_lbl_paramaeters_1.gridy = 3;
 		add(lbl_paramaeters_1, gbc_lbl_paramaeters_1);
 		
-		JSpinner param_spinner_1 = new JSpinner();
+		param_spinner_1 = new JSpinner();
 		param_spinner_1.setModel(new SpinnerNumberModel(new Integer(2), new Integer(2), null, new Integer(1)));
 		GridBagConstraints gbc_param_spinner_1 = new GridBagConstraints();
 		gbc_param_spinner_1.fill = GridBagConstraints.VERTICAL;
@@ -104,7 +134,7 @@ public class MSNpanel extends JPanel {
 		param_spinner_1.setPreferredSize(new Dimension(40, 23));
 		add(param_spinner_1, gbc_param_spinner_1);
 		
-		JLabel lbl_parameters_2 = new JLabel("New packets in node (Pavr):");
+		JLabel lbl_parameters_2 = new JLabel("New packets delay in node (Pavr):");
 		GridBagConstraints gbc_lbl_parameters_2 = new GridBagConstraints();
 		gbc_lbl_parameters_2.anchor = GridBagConstraints.WEST;
 		gbc_lbl_parameters_2.insets = new Insets(0, 0, 5, 5);
@@ -112,8 +142,8 @@ public class MSNpanel extends JPanel {
 		gbc_lbl_parameters_2.gridy = 4;
 		add(lbl_parameters_2, gbc_lbl_parameters_2);
 		
-		JSpinner param_spinner_2 = new JSpinner();
-		param_spinner_2.setModel(new SpinnerNumberModel(new Integer(1), new Integer(0), null, new Integer(1)));
+		param_spinner_2 = new JSpinner();
+		param_spinner_2.setModel(new SpinnerNumberModel(new Integer(7), new Integer(1), null, new Integer(1)));
 		GridBagConstraints gbc_param_spinner_2 = new GridBagConstraints();
 		gbc_param_spinner_2.anchor = GridBagConstraints.WEST;
 		gbc_param_spinner_2.fill = GridBagConstraints.VERTICAL;
@@ -131,8 +161,8 @@ public class MSNpanel extends JPanel {
 		gbc_lbl_parameters_3.gridy = 5;
 		add(lbl_parameters_3, gbc_lbl_parameters_3);
 		
-		JSpinner param_spinner_3 = new JSpinner();
-		param_spinner_3.setModel(new SpinnerNumberModel(new Integer(7), new Integer(1), null, new Integer(1)));
+		param_spinner_3 = new JSpinner();
+		param_spinner_3.setModel(new SpinnerNumberModel(new Integer(4), new Integer(1), null, new Integer(1)));
 		GridBagConstraints gbc_param_spinner_3 = new GridBagConstraints();
 		gbc_param_spinner_3.fill = GridBagConstraints.VERTICAL;
 		gbc_param_spinner_3.anchor = GridBagConstraints.WEST;
@@ -150,8 +180,8 @@ public class MSNpanel extends JPanel {
 		gbc_lbl_parameters_4.gridy = 6;
 		add(lbl_parameters_4, gbc_lbl_parameters_4);
 		
-		JSpinner param_spinner_4 = new JSpinner();
-		param_spinner_4.setModel(new SpinnerNumberModel(new Integer(7), new Integer(1), null, new Integer(1)));
+		param_spinner_4 = new JSpinner();
+		param_spinner_4.setModel(new SpinnerNumberModel(new Integer(14), new Integer(1), null, new Integer(1)));
 		GridBagConstraints gbc_param_spinner_4 = new GridBagConstraints();
 		gbc_param_spinner_4.fill = GridBagConstraints.VERTICAL;
 		gbc_param_spinner_4.anchor = GridBagConstraints.WEST;
@@ -170,16 +200,24 @@ public class MSNpanel extends JPanel {
 		gbc_lbl_parameters_5.gridy = 7;
 		add(lbl_parameters_5, gbc_lbl_parameters_5);
 		
-		JComboBox param_comboBox_1 = new JComboBox();
+		param_comboBox_1 = new JComboBox();
 		GridBagConstraints gbc_param_comboBox_1 = new GridBagConstraints();
 		gbc_param_comboBox_1.anchor = GridBagConstraints.WEST;
 		gbc_param_comboBox_1.insets = new Insets(0, 20, 5, 5);
 		gbc_param_comboBox_1.fill = GridBagConstraints.VERTICAL;
 		gbc_param_comboBox_1.gridx = 2;
 		gbc_param_comboBox_1.gridy = 7;
-		param_comboBox_1.setSize(100, 20);
-		param_comboBox_1.setPreferredSize(new Dimension(100, 22));
+		param_comboBox_1.setPreferredSize(new Dimension(120, 22));
+		param_comboBox_1.setSize(120,22);
 		add(param_comboBox_1, gbc_param_comboBox_1);
+		
+		for (int i=0; i < Routing.getRoutings().length; i++)
+		{
+			param_comboBox_1.addItem(Routing.getRoutings()[i]);
+		}
+		param_comboBox_1.setSelectedIndex(0);
+		
+		
 		
 		Panel panel = new Panel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -197,35 +235,55 @@ public class MSNpanel extends JPanel {
 		ImageIcon icon1 = new ImageIcon("res/play.png","Play");
 		Image img1 = icon1.getImage();  
 		Image newimg1 = img1.getScaledInstance(30,30,java.awt.Image.SCALE_SMOOTH ) ;  
-		icon1 = new ImageIcon(newimg1);
-		JLabel lbl_play = new JLabel(icon1);
+		//icon1 = new ImageIcon(newimg1);
+		//JLabel lbl_play = new JLabel(icon1);
+		playButton = new JButton(new ImageIcon(newimg1));
+		playButton.setContentAreaFilled(false);
+		playButton.setBorderPainted(false);
 		GridBagConstraints gbc_lbl_play = new GridBagConstraints();
-		gbc_lbl_play.insets = new Insets(5, 0, 5, 5);
+		gbc_lbl_play.insets = new Insets(5, 0, 5, 0);
 		gbc_lbl_play.gridx = 1;
 		gbc_lbl_play.gridy = 1;
-		panel.add(lbl_play, gbc_lbl_play);
+		panel.add(playButton, gbc_lbl_play);
+		playButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				play();
+			}
+		});
 		
 		ImageIcon icon2 = new ImageIcon("res/pause.png","Play");
 		Image img2 = icon2.getImage();  
 		Image newimg2 = img2.getScaledInstance(30,30,java.awt.Image.SCALE_SMOOTH ) ;  
-		icon2 = new ImageIcon(newimg2);
-		JLabel lbl_pause = new JLabel(icon2);
+		pauseButton  = new JButton(new ImageIcon(newimg2));
+		pauseButton.setContentAreaFilled(false);
+		pauseButton.setBorderPainted(false);
 		GridBagConstraints gbc_lbl_pause = new GridBagConstraints();
-		gbc_lbl_pause.insets = new Insets(5, 0, 5, 5);
+		gbc_lbl_pause.insets = new Insets(5, 0, 5, 0);
 		gbc_lbl_pause.gridx = 2;
 		gbc_lbl_pause.gridy = 1;
-		panel.add(lbl_pause, gbc_lbl_pause);
-		
-		ImageIcon icon3 = new ImageIcon("res/stop.png","Play");
+		panel.add(pauseButton, gbc_lbl_pause);
+		pauseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				pause();
+			}
+		});
+
+		ImageIcon icon3 = new ImageIcon("res/stop.png","Stop");
 		Image img3 = icon3.getImage();  
 		Image newimg3 = img3.getScaledInstance(30,30,java.awt.Image.SCALE_SMOOTH ) ;  
-		icon3 = new ImageIcon(newimg3);
-		JLabel lbl_stop = new JLabel(icon3);
+		stopButton  = new JButton(new ImageIcon(newimg3));
+		stopButton.setContentAreaFilled(false);
+		stopButton.setBorderPainted(false);
 		GridBagConstraints gbc_lbl_stop = new GridBagConstraints();
-		gbc_lbl_stop.insets = new Insets(5, 0, 5, 5);
+		gbc_lbl_stop.insets = new Insets(5, 0, 5, 0);
 		gbc_lbl_stop.gridx = 3;
 		gbc_lbl_stop.gridy = 1;
-		panel.add(lbl_stop, gbc_lbl_stop);
+		panel.add(stopButton, gbc_lbl_stop);
+		stopButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				stop();
+			}
+		});
 		
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setBackground(Color.BLACK);
@@ -233,7 +291,7 @@ public class MSNpanel extends JPanel {
 		GridBagConstraints gbc_separator_2 = new GridBagConstraints();
 		gbc_separator_2.gridwidth = 2;
 		gbc_separator_2.fill = GridBagConstraints.BOTH;
-		gbc_separator_2.insets = new Insets(0, 0, 5, 440);
+		gbc_separator_2.insets = new Insets(0, 0, 5, 40);
 		gbc_separator_2.gridx = 1;
 		gbc_separator_2.gridy = 13;
 		add(separator_2, gbc_separator_2);
@@ -253,7 +311,7 @@ public class MSNpanel extends JPanel {
 		GridBagConstraints gbc_separator_3 = new GridBagConstraints();
 		gbc_separator_3.fill = GridBagConstraints.BOTH;
 		gbc_separator_3.gridwidth = 2;
-		gbc_separator_3.insets = new Insets(0, 0, 5, 440);
+		gbc_separator_3.insets = new Insets(0, 0, 5, 40);
 		gbc_separator_3.gridx = 1;
 		gbc_separator_3.gridy = 15;
 		add(separator_3, gbc_separator_3);
@@ -266,7 +324,7 @@ public class MSNpanel extends JPanel {
 		gbc_lbl_results_1.gridy = 16;
 		add(lbl_results_1, gbc_lbl_results_1);
 		
-		JLabel lbl_results_11 = new JLabel("21");
+		lbl_results_11 = new JLabel("0");
 		GridBagConstraints gbc_lbl_results_11 = new GridBagConstraints();
 		gbc_lbl_results_11.anchor = GridBagConstraints.WEST;
 		gbc_lbl_results_11.insets = new Insets(15, 20, 5, 5);
@@ -282,7 +340,7 @@ public class MSNpanel extends JPanel {
 		gbc_lbl_results_2.gridy = 17;
 		add(lbl_results_2, gbc_lbl_results_2);
 		
-		JLabel lbl_results_21 = new JLabel("6");
+		lbl_results_21 = new JLabel("0");
 		GridBagConstraints gbc_lbl_results_21 = new GridBagConstraints();
 		gbc_lbl_results_21.anchor = GridBagConstraints.WEST;
 		gbc_lbl_results_21.insets = new Insets(0, 20, 5, 5);
@@ -298,7 +356,7 @@ public class MSNpanel extends JPanel {
 		gbc_lbl_results_3.gridy = 18;
 		add(lbl_results_3, gbc_lbl_results_3);
 		
-		JLabel lbl_results_31 = new JLabel("126");
+		lbl_results_31 = new JLabel("0");
 		GridBagConstraints gbc_lbl_results_31 = new GridBagConstraints();
 		gbc_lbl_results_31.anchor = GridBagConstraints.WEST;
 		gbc_lbl_results_31.insets = new Insets(0, 20, 5, 5);
@@ -314,15 +372,136 @@ public class MSNpanel extends JPanel {
 		gbc_lbl_results_4.gridy = 19;
 		add(lbl_results_4, gbc_lbl_results_4);
 		
-		JLabel label_2 = new JLabel("4");
+		lbl_results_41 = new JLabel("0");
 		GridBagConstraints gbc_label_2 = new GridBagConstraints();
 		gbc_label_2.anchor = GridBagConstraints.WEST;
 		gbc_label_2.insets = new Insets(0, 20, 0, 5);
 		gbc_label_2.gridx = 2;
 		gbc_label_2.gridy = 19;
-		add(label_2, gbc_label_2);
-		
+		add(lbl_results_41, gbc_label_2);
 
+
+	}
+	
+	public void play() 
+	{
+		this.param_spinner_1.setEnabled(false);
+		this.param_spinner_2.setEnabled(false);
+		this.param_spinner_3.setEnabled(false);
+		this.param_spinner_4.setEnabled(false);
+		this.param_comboBox_1.setEnabled(false);
+		this.parameters = new Parameters(this.getParam_spinner_1(),
+				this.getParam_spinner_2(),
+				this.getParam_spinner_3(),
+				this.getParam_spinner_4(),
+				this.getParam_comboBox_1().getSelectedItem().toString());
+		if (networkThread==null) {
+			network = new Network(parameters,this);
+			network.setWorking(true);
+			networkThread = new Thread(network);
+			networkThread.start();
+			
+			//part responsible for drawing
+			this.mainFrame.graphPanel.setNetSize(parameters.getNetSize());
+			this.mainFrame.graphPanel.setBufferSize(parameters.getBufferOut());
+		}
+		else {
+			network.setWorking(true);
+			network.updateParameters(parameters); //TODO
+		}
+		
+	}
+	
+	public void pause() 
+	{
+		this.param_spinner_2.setEnabled(true);
+		this.param_spinner_3.setEnabled(true);
+		this.param_spinner_4.setEnabled(true);
+		this.param_comboBox_1.setEnabled(true);
+		network.setWorking(false);
+	}
+	
+	public void stop()
+	{
+		this.param_spinner_1.setEnabled(true);
+		this.param_spinner_2.setEnabled(true);
+		this.param_spinner_3.setEnabled(true);
+		this.param_spinner_4.setEnabled(true);
+		this.param_comboBox_1.setEnabled(true);
+		
+		if (networkThread!=null) {
+			networkThread.stop();
+			networkThread = null;
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public JComboBox getParam_comboBox_1() {
+		return param_comboBox_1;
+	}
+
+	public void setParam_comboBox_1(JComboBox param_comboBox_1) {
+		this.param_comboBox_1 = param_comboBox_1;
+	}
+
+	public int getParam_spinner_1() {
+		return ((Integer) param_spinner_1.getValue()).intValue();
+	}
+
+	public int getParam_spinner_2() {
+		return ((Integer) param_spinner_2.getValue()).intValue();
+	}
+
+	public int getParam_spinner_3() {
+		return ((Integer) param_spinner_3.getValue()).intValue();
+	}
+
+	public int getParam_spinner_4() {
+		return ((Integer) param_spinner_4.getValue()).intValue();
+	}
+
+	public void setLbl_results_11(String text) {
+		this.lbl_results_11.setText(text);
+	}
+
+	public void setLbl_results_21(String text) {
+		this.lbl_results_21.setText(text);
+	}
+	
+	public void setLbl_results_31(String text) {
+		this.lbl_results_31.setText(text);
+	}
+	
+	public void setLbl_results_41(String text) {
+		this.lbl_results_41.setText(text);
+	}
+
+	public void updateReceived(int receivedPacketsCount, int hopsCount, int delay) {
+		//System.out.println("    " + hopsCount);
+		double hopsCountAvr = ((receivedPacketsCount-1)*(Double.parseDouble(this.lbl_results_41.getText())) 
+				+ (double) hopsCount) / receivedPacketsCount;
+		int r = (int)(hopsCountAvr * 100);
+		double f = r / 100.0;
+		this.lbl_results_41.setText("" + f);
+		
+		double delayAvr = ((receivedPacketsCount-1)*(Double.parseDouble(this.lbl_results_11.getText())) 
+				+ (double) delay) / receivedPacketsCount;
+		int q = (int)(delay * 100);
+		double g = q / 100.0;
+		this.lbl_results_11.setText("" + g);
+		
+	}
+
+	public void updateLost(int i) {
+		this.lbl_results_31.setText("" + (Integer.parseInt(this.lbl_results_31.getText()) + 1));
 	}
 
 }
