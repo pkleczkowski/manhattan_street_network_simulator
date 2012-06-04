@@ -1,15 +1,28 @@
 package org.msn.visual;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.Vector;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import org.msn.MSNmain;
@@ -17,21 +30,6 @@ import org.msn.Network;
 import org.msn.Parameters;
 import org.msn.Results;
 import org.msn.Routing;
-
-import java.awt.Font;
-import javax.swing.JSeparator;
-import java.awt.Color;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.JComboBox;
-import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MSNpanel extends JPanel {
 
@@ -58,6 +56,8 @@ public class MSNpanel extends JPanel {
 	public Network network;
 	private Thread networkThread;
 	private Routing routing;
+	
+	private Vector<Integer> delayArray;
 	/**
 	 * Create the panel.
 	 */
@@ -379,7 +379,8 @@ public class MSNpanel extends JPanel {
 		gbc_label_2.gridx = 2;
 		gbc_label_2.gridy = 19;
 		add(lbl_results_41, gbc_label_2);
-
+		
+		delayArray= new Vector<Integer>();
 
 	}
 	
@@ -485,7 +486,6 @@ public class MSNpanel extends JPanel {
 	}
 
 	public void updateReceived(int receivedPacketsCount, int hopsCount, int delay) {
-		//System.out.println("    " + hopsCount);
 		double hopsCountAvr = ((receivedPacketsCount-1)*(Double.parseDouble(this.lbl_results_41.getText())) 
 				+ (double) hopsCount) / receivedPacketsCount;
 		int r = (int)(hopsCountAvr * 100);
@@ -498,6 +498,20 @@ public class MSNpanel extends JPanel {
 		double g = q / 100.0;
 		this.lbl_results_11.setText("" + g);
 		
+		delayArray.add(Integer.valueOf(delay));
+		double variance = calculateVariance(delayAvr);
+		this.lbl_results_21.setText(""+variance);
+	}
+
+	private double calculateVariance(double delayAvr) {
+		
+		int numerator = 0;
+		int denominator= delayArray.size();
+		Iterator<Integer> iter = delayArray.iterator();
+		while(iter.hasNext())
+			numerator+=Math.pow((iter.next()-delayAvr), 2);
+		
+		return (numerator/denominator);
 	}
 
 	public void updateLost(int i) {
