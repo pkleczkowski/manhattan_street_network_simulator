@@ -1,3 +1,1 @@
-5,7,4,14,Random routing,3.0,0,11,5.65,
-6;7;4;14;Random routing;9.18;0;107;5.82;
-6;7;4;14;Deflection routing;2.99;0;186;2.99;
+Network Size [N];New Packets Avr Delay [Pavr];Bufor Size [L];Time to Live [TTL];Routing Type;Delay;Delay Var;Received Packets;Lost Packets;Hops Avr

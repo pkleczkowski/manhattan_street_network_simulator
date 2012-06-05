@@ -12,6 +12,7 @@ import java.awt.Insets;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
@@ -51,6 +52,7 @@ public class MSNpanel extends JPanel {
 	private JLabel lbl_results_11;
 	private JLabel lbl_results_21;
 	private JLabel lbl_results_31;
+	private JLabel lbl_results_32;
 	private JLabel lbl_results_41;
 	
 	private Results results;
@@ -82,11 +84,24 @@ public class MSNpanel extends JPanel {
 		removeAll();
 		repaint();
 		revalidate();
+		
+		File yourFile = new File(OUTPUT_FILE);
+		yourFile.delete();
+		FileWriter fw;
+		try {
+			fw = new FileWriter(OUTPUT_FILE, true);
+			fw.append("Network Size [N];New Packets Avr Delay [Pavr];Bufor Size [L];Time to Live [TTL];Routing Type;Delay;Delay Var;Received Packets;Lost Packets;Hops Avr");
+			fw.append(System.getProperty("line.separator"));
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel empty_lbl_1 = new JLabel("              ");
@@ -110,7 +125,7 @@ public class MSNpanel extends JPanel {
 		separator_1.setBackground(Color.BLACK);
 		separator_1.setForeground(Color.BLACK);
 		GridBagConstraints gbc_separator_1 = new GridBagConstraints();
-		gbc_separator_1.gridwidth = 2;
+		gbc_separator_1.gridwidth = 3;
 		gbc_separator_1.fill = GridBagConstraints.BOTH;
 		gbc_separator_1.insets = new Insets(0, 0, 5, 40);
 		gbc_separator_1.gridx = 1;
@@ -129,6 +144,7 @@ public class MSNpanel extends JPanel {
 		param_spinner_1 = new JSpinner();
 		param_spinner_1.setModel(new SpinnerNumberModel(new Integer(2), new Integer(2), null, new Integer(1)));
 		GridBagConstraints gbc_param_spinner_1 = new GridBagConstraints();
+		gbc_param_spinner_1.gridwidth = 2;
 		gbc_param_spinner_1.fill = GridBagConstraints.VERTICAL;
 		gbc_param_spinner_1.anchor = GridBagConstraints.WEST;
 		gbc_param_spinner_1.insets = new Insets(15, 20, 5, 5);
@@ -148,6 +164,7 @@ public class MSNpanel extends JPanel {
 		param_spinner_2 = new JSpinner();
 		param_spinner_2.setModel(new SpinnerNumberModel(new Integer(7), new Integer(1), null, new Integer(1)));
 		GridBagConstraints gbc_param_spinner_2 = new GridBagConstraints();
+		gbc_param_spinner_2.gridwidth = 2;
 		gbc_param_spinner_2.anchor = GridBagConstraints.WEST;
 		gbc_param_spinner_2.fill = GridBagConstraints.VERTICAL;
 		gbc_param_spinner_2.insets = new Insets(0, 20, 5, 5);
@@ -167,6 +184,7 @@ public class MSNpanel extends JPanel {
 		param_spinner_3 = new JSpinner();
 		param_spinner_3.setModel(new SpinnerNumberModel(new Integer(4), new Integer(1), null, new Integer(1)));
 		GridBagConstraints gbc_param_spinner_3 = new GridBagConstraints();
+		gbc_param_spinner_3.gridwidth = 2;
 		gbc_param_spinner_3.fill = GridBagConstraints.VERTICAL;
 		gbc_param_spinner_3.anchor = GridBagConstraints.WEST;
 		gbc_param_spinner_3.insets = new Insets(0, 20, 5, 5);
@@ -186,6 +204,7 @@ public class MSNpanel extends JPanel {
 		param_spinner_4 = new JSpinner();
 		param_spinner_4.setModel(new SpinnerNumberModel(new Integer(14), new Integer(1), null, new Integer(1)));
 		GridBagConstraints gbc_param_spinner_4 = new GridBagConstraints();
+		gbc_param_spinner_4.gridwidth = 2;
 		gbc_param_spinner_4.fill = GridBagConstraints.VERTICAL;
 		gbc_param_spinner_4.anchor = GridBagConstraints.WEST;
 		gbc_param_spinner_4.insets = new Insets(0, 20, 5, 5);
@@ -205,6 +224,7 @@ public class MSNpanel extends JPanel {
 		
 		param_comboBox_1 = new JComboBox();
 		GridBagConstraints gbc_param_comboBox_1 = new GridBagConstraints();
+		gbc_param_comboBox_1.gridwidth = 2;
 		gbc_param_comboBox_1.anchor = GridBagConstraints.WEST;
 		gbc_param_comboBox_1.insets = new Insets(0, 20, 5, 5);
 		gbc_param_comboBox_1.fill = GridBagConstraints.VERTICAL;
@@ -292,7 +312,7 @@ public class MSNpanel extends JPanel {
 		separator_2.setBackground(Color.BLACK);
 		separator_2.setForeground(Color.BLACK);
 		GridBagConstraints gbc_separator_2 = new GridBagConstraints();
-		gbc_separator_2.gridwidth = 2;
+		gbc_separator_2.gridwidth = 3;
 		gbc_separator_2.fill = GridBagConstraints.BOTH;
 		gbc_separator_2.insets = new Insets(0, 0, 5, 40);
 		gbc_separator_2.gridx = 1;
@@ -313,7 +333,7 @@ public class MSNpanel extends JPanel {
 		separator_3.setForeground(Color.BLACK);
 		GridBagConstraints gbc_separator_3 = new GridBagConstraints();
 		gbc_separator_3.fill = GridBagConstraints.BOTH;
-		gbc_separator_3.gridwidth = 2;
+		gbc_separator_3.gridwidth = 3;
 		gbc_separator_3.insets = new Insets(0, 0, 5, 40);
 		gbc_separator_3.gridx = 1;
 		gbc_separator_3.gridy = 15;
@@ -329,6 +349,7 @@ public class MSNpanel extends JPanel {
 		
 		lbl_results_11 = new JLabel("0");
 		GridBagConstraints gbc_lbl_results_11 = new GridBagConstraints();
+		gbc_lbl_results_11.gridwidth = 2;
 		gbc_lbl_results_11.anchor = GridBagConstraints.WEST;
 		gbc_lbl_results_11.insets = new Insets(15, 20, 5, 5);
 		gbc_lbl_results_11.gridx = 2;
@@ -345,26 +366,45 @@ public class MSNpanel extends JPanel {
 		
 		lbl_results_21 = new JLabel("0");
 		GridBagConstraints gbc_lbl_results_21 = new GridBagConstraints();
+		gbc_lbl_results_21.gridwidth = 2;
 		gbc_lbl_results_21.anchor = GridBagConstraints.WEST;
 		gbc_lbl_results_21.insets = new Insets(0, 20, 5, 5);
 		gbc_lbl_results_21.gridx = 2;
 		gbc_lbl_results_21.gridy = 17;
 		add(lbl_results_21, gbc_lbl_results_21);
 		
+		JLabel lblReceivedPackets = new JLabel("Received packets:");
+		GridBagConstraints gbc_lblReceivedPackets = new GridBagConstraints();
+		gbc_lblReceivedPackets.anchor = GridBagConstraints.WEST;
+		gbc_lblReceivedPackets.insets = new Insets(0, 0, 5, 5);
+		gbc_lblReceivedPackets.gridx = 1;
+		gbc_lblReceivedPackets.gridy = 18;
+		add(lblReceivedPackets, gbc_lblReceivedPackets);
+		
+		lbl_results_32 = new JLabel("0");
+		GridBagConstraints gbc_lbl_results_32 = new GridBagConstraints();
+		gbc_lbl_results_32.gridwidth = 2;
+		gbc_lbl_results_32.anchor = GridBagConstraints.WEST;
+		gbc_lbl_results_32.insets = new Insets(0, 20, 5, 5);
+		gbc_lbl_results_32.gridx = 2;
+		gbc_lbl_results_32.gridy = 18;
+		add(lbl_results_32, gbc_lbl_results_32);
+		
 		JLabel lbl_results_3 = new JLabel("Lost packets:");
 		GridBagConstraints gbc_lbl_results_3 = new GridBagConstraints();
 		gbc_lbl_results_3.anchor = GridBagConstraints.WEST;
 		gbc_lbl_results_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lbl_results_3.gridx = 1;
-		gbc_lbl_results_3.gridy = 18;
+		gbc_lbl_results_3.gridy = 19;
 		add(lbl_results_3, gbc_lbl_results_3);
 		
 		lbl_results_31 = new JLabel("0");
 		GridBagConstraints gbc_lbl_results_31 = new GridBagConstraints();
+		gbc_lbl_results_31.gridwidth = 2;
 		gbc_lbl_results_31.anchor = GridBagConstraints.WEST;
 		gbc_lbl_results_31.insets = new Insets(0, 20, 5, 5);
 		gbc_lbl_results_31.gridx = 2;
-		gbc_lbl_results_31.gridy = 18;
+		gbc_lbl_results_31.gridy = 19;
 		add(lbl_results_31, gbc_lbl_results_31);
 		
 		JLabel lbl_results_4 = new JLabel("Hops (avr):");
@@ -372,15 +412,16 @@ public class MSNpanel extends JPanel {
 		gbc_lbl_results_4.anchor = GridBagConstraints.WEST;
 		gbc_lbl_results_4.insets = new Insets(0, 0, 0, 5);
 		gbc_lbl_results_4.gridx = 1;
-		gbc_lbl_results_4.gridy = 19;
+		gbc_lbl_results_4.gridy = 20;
 		add(lbl_results_4, gbc_lbl_results_4);
 		
 		lbl_results_41 = new JLabel("0");
 		GridBagConstraints gbc_label_2 = new GridBagConstraints();
+		gbc_label_2.gridwidth = 2;
 		gbc_label_2.anchor = GridBagConstraints.WEST;
 		gbc_label_2.insets = new Insets(0, 20, 0, 5);
 		gbc_label_2.gridx = 2;
-		gbc_label_2.gridy = 19;
+		gbc_label_2.gridy = 20;
 		add(lbl_results_41, gbc_label_2);
 		
 		delayArray= new Vector<Integer>();
@@ -400,6 +441,12 @@ public class MSNpanel extends JPanel {
 				this.getParam_spinner_4(),
 				this.getParam_comboBox_1().getSelectedItem().toString());
 		if (networkThread==null) {
+			this.lbl_results_11.setText("0");
+			this.lbl_results_21.setText("0");
+			this.lbl_results_31.setText("0");
+			this.lbl_results_32.setText("0");
+			this.lbl_results_41.setText("0");
+			delayArray= new Vector<Integer>();
 			network = new Network(parameters,this);
 			network.setWorking(true);
 			networkThread = new Thread(network);
@@ -438,9 +485,12 @@ public class MSNpanel extends JPanel {
 					fw.append(this.parameters.getRoutingType() + ";");
 					fw.append(this.lbl_results_11.getText() + ";");
 					fw.append(this.lbl_results_21.getText() + ";");
-					fw.append(this.lbl_results_31.getText() + ";");
+					fw.append(this.lbl_results_32.getText() + ";");
+					String[] lost = this.lbl_results_31.getText().split(" ");
+					int lostP = Integer.parseInt(lost[0]);
+					fw.append(""+lostP + ";");
 					fw.append(this.lbl_results_41.getText() + ";");
-			fw.append(System.getProperty("line.separator"));
+					fw.append(System.getProperty("line.separator"));
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -514,7 +564,8 @@ public class MSNpanel extends JPanel {
 		double f = r / 100.0;
 		this.lbl_results_41.setText("" + f);
 		
-		System.out.println("Hops: "+hopsCount + "Delay: "+delay);
+		this.lbl_results_32.setText(""+receivedPacketsCount);
+		
 		double delayAvr = ((receivedPacketsCount-1)*(Double.parseDouble(this.lbl_results_11.getText())) 
 				+ (double) delay) / receivedPacketsCount;
 		int q = (int)(delayAvr * 100);
@@ -525,6 +576,14 @@ public class MSNpanel extends JPanel {
 		delayArray.add(Integer.valueOf(delay));
 		double variance = calculateVariance(delayAvr);
 		this.lbl_results_21.setText(""+variance);
+		
+		String[] lost = this.lbl_results_31.getText().split(" ");
+		double lostP = Double.parseDouble(lost[0]);
+		double percent = (lostP*100/(receivedPacketsCount+lostP));
+		int tmpLost = (int)(percent * 100);
+		percent = tmpLost / 100.0;
+		//double tmp = percent/100.0;
+		this.lbl_results_31.setText("" +(int)lostP + " (" + percent + "%)");
 	}
 
 	private double calculateVariance(double delayAvr) {
@@ -541,7 +600,13 @@ public class MSNpanel extends JPanel {
 	}
 
 	public void updateLost(int i) {
-		this.lbl_results_31.setText("" + (Integer.parseInt(this.lbl_results_31.getText()) + 1));
+		String[] lost = this.lbl_results_31.getText().split(" ");
+		double lostP = Double.parseDouble(lost[0]) + 1.00;
+		double percent = (lostP*100/(Integer.parseInt(this.lbl_results_32.getText())+lostP));
+		int tmpLost = (int)(percent * 100);
+		percent = tmpLost / 100.0;
+		//double tmp = percent/100.0;
+		this.lbl_results_31.setText("" +(int)lostP + " (" + percent + "%)");
 	}
 
 }
