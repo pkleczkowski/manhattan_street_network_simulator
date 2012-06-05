@@ -108,33 +108,33 @@ public class Router {
 		{
 		    //isEven = true
 			if(i==0)
-				b1 = new Buffer(new Address(netSize-1,j),bufferSize);	//jeœli parzysta kolumna i zerowy wiersz to B1 (wyjœcie 1) jest do najni¿szego w tej samej kolumnie
+				b1 = new Buffer(this, new Address(netSize-1,j),bufferSize);	//jeœli parzysta kolumna i zerowy wiersz to B1 (wyjœcie 1) jest do najni¿szego w tej samej kolumnie
 			else
-				b1 = new Buffer(new Address(i-1,j),bufferSize);			//jesli parzysta kolumna i wiersz gdzieœ w œrodku to B1 na wy¿szy wiersz ta sama kolumna
+				b1 = new Buffer(this, new Address(i-1,j),bufferSize);			//jesli parzysta kolumna i wiersz gdzieœ w œrodku to B1 na wy¿szy wiersz ta sama kolumna
 		}
 		else
 		{
 		    //isEven = false
 			if (i==(netSize-1))
-				b1 = new Buffer(new Address(0,j),bufferSize);
+				b1 = new Buffer(this, new Address(0,j),bufferSize);
 			else
-				b1 = new Buffer(new Address(i+1,j),bufferSize);
+				b1 = new Buffer(this, new Address(i+1,j),bufferSize);
 		}
 		if ((i % 2) == 0)
 		{
 		    //isEven = true
 			if(j==(netSize-1))
-				b2 = new Buffer(new Address(i,0),bufferSize);	//jeœli parzysta kolumna i zerowy wiersz to B1 (wyjœcie 1) jest do najni¿szego w tej samej kolumnie
+				b2 = new Buffer(this, new Address(i,0),bufferSize);	//jeœli parzysta kolumna i zerowy wiersz to B1 (wyjœcie 1) jest do najni¿szego w tej samej kolumnie
 			else
-				b2 = new Buffer(new Address(i,j+1),bufferSize);			//jesli parzysta kolumna i wiersz gdzieœ w œrodku to B1 na wy¿szy wiersz ta sama kolumna
+				b2 = new Buffer(this, new Address(i,j+1),bufferSize);			//jesli parzysta kolumna i wiersz gdzieœ w œrodku to B1 na wy¿szy wiersz ta sama kolumna
 		}
 		else
 		{
 		    //isEven = false
 			if (j==0)
-				b2 = new Buffer(new Address(i,netSize-1),bufferSize);
+				b2 = new Buffer(this, new Address(i,netSize-1),bufferSize);
 			else
-				b2 = new Buffer(new Address(i,j-1),bufferSize);
+				b2 = new Buffer(this, new Address(i,j-1),bufferSize);
 		}
 		
 	}
@@ -152,6 +152,10 @@ public class Router {
 	public void receivePacketY(Packet packet) {
 		if (!d2.offer(packet))
 			System.out.println(" in router: "+this.address.getAddress());
+	}
+	
+	public void updateLost() {
+		parentNetwork.updatelostPackets();
 	}
 
 	//local input interface (generate packets and input them into router forwarding table)

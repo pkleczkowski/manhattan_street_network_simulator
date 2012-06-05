@@ -7,8 +7,10 @@ public class Buffer {
 	private Address nextHopAddress;
 	private int bufferSize;
 	public LinkedList<Packet> fifo;
+	private Router parentRouter;
 	
-	public Buffer(Address address, int buffer) {
+	public Buffer(Router router, Address address, int buffer) {
+		parentRouter = router;
 		nextHopAddress = address;
 		bufferSize = buffer;
 		fifo = new LinkedList<Packet>();
@@ -16,9 +18,21 @@ public class Buffer {
 	
 	public void offer(Packet packet) {
 		//if (fifo.size()) //TODO
-		fifo.offer(packet);
+		if (fifo.size()==bufferSize) {
+			//odrzuc pakiet
+			updateLost();
+		}
+		else if (fifo.size()>bufferSize) {
+			System.out.println("Coœ jest kuTwa nie tak! za duzo w buforach!");
+		}
+		else
+			fifo.offer(packet);
 	}
 	
+	private void updateLost() {
+		parentRouter.updateLost();
+	}
+
 	public Address getNextHopAddress() {
 		return nextHopAddress;
 	}
