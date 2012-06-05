@@ -1,5 +1,7 @@
 package org.msn;
 
+import java.util.Random;
+
 
 public class GenerateStepsAlgorytm {
 	
@@ -12,6 +14,7 @@ public class GenerateStepsAlgorytm {
 	
 	private int currentHorizontalStep;
 	private int currentVerticalStep;
+	private Random rand;
 	
 	
 	public GenerateStepsAlgorytm(int currentRowPosition, int currentColumnPosition, int destinationRowPosition,
@@ -25,6 +28,7 @@ public class GenerateStepsAlgorytm {
 		
 	public Step getNextStep(){
 		
+		this.rand = new Random();
 		calculateSteps();
 		
 		Step step = Step.NO_STEP;
@@ -54,7 +58,14 @@ public class GenerateStepsAlgorytm {
 					step=Step.RIGHT;
 				else{
 					int goByLine=  networkSize-Math.abs(currentVerticalStep);
-					if(goByLine<2+Math.abs(currentVerticalStep))
+					if(goByLine==2+Math.abs(currentVerticalStep)){
+						int i=rand.nextInt(100);
+						if(i<50)
+							step=Step.RIGHT;
+						else
+							step=Step.TOP;
+					}
+					else if(goByLine<2+Math.abs(currentVerticalStep))
 						step=Step.RIGHT;
 					else
 						step=Step.TOP;
@@ -67,7 +78,14 @@ public class GenerateStepsAlgorytm {
 					step=Step.TOP;
 				else{
 					int goByLine= networkSize - Math.abs(currentHorizontalStep);
-					if(goByLine<2+Math.abs(currentHorizontalStep))
+					if(goByLine==2+Math.abs(currentHorizontalStep)){
+						int i=rand.nextInt(100);
+						if(i<50)
+							step=Step.RIGHT;
+						else
+							step=Step.TOP;
+					}
+					else if(goByLine<2+Math.abs(currentHorizontalStep))
 						step=Step.TOP;
 					else
 						step=Step.RIGHT;
@@ -101,7 +119,14 @@ public class GenerateStepsAlgorytm {
 					step=Step.RIGHT;
 				else{
 					int goByLine=  networkSize-Math.abs(currentVerticalStep);
-					if(goByLine<2+Math.abs(currentVerticalStep))
+					if(goByLine==2+Math.abs(currentVerticalStep)){
+						int i=rand.nextInt(100);
+						if(i<50)
+							step=Step.RIGHT;
+						else
+							step=Step.DOWN;
+					}
+					else if(goByLine<2+Math.abs(currentVerticalStep))
 						step=Step.RIGHT;
 					else
 						step=Step.DOWN;
@@ -114,7 +139,14 @@ public class GenerateStepsAlgorytm {
 					step=Step.DOWN;
 				else{
 					int goByLine= networkSize - Math.abs(currentHorizontalStep);
-					if(goByLine<2+Math.abs(currentHorizontalStep))
+					if(goByLine==2+Math.abs(currentHorizontalStep)){
+						int i=rand.nextInt(100);
+						if(i<50)
+							step=Step.RIGHT;
+						else
+							step=Step.DOWN;
+					}
+					else if(goByLine<2+Math.abs(currentHorizontalStep))
 						step=Step.DOWN;
 					else
 						step=Step.RIGHT;
@@ -147,7 +179,14 @@ public class GenerateStepsAlgorytm {
 					step=Step.LEFT;
 				else{
 					int goByLine=  networkSize-Math.abs(currentVerticalStep);
-					if(goByLine<2+Math.abs(currentVerticalStep))
+					if(goByLine==2+Math.abs(currentVerticalStep)){
+						int i=rand.nextInt(100);
+						if(i<50)
+							step=Step.LEFT;
+						else
+							step=Step.DOWN;
+					}
+					else if(goByLine<2+Math.abs(currentVerticalStep))
 						step=Step.LEFT;
 					else
 						step=Step.DOWN;
@@ -160,7 +199,14 @@ public class GenerateStepsAlgorytm {
 					step=Step.DOWN;
 				else{
 					int goByLine= networkSize - Math.abs(currentHorizontalStep);
-					if(goByLine<2+Math.abs(currentHorizontalStep))
+					if(goByLine==2+Math.abs(currentHorizontalStep)){
+						int i=rand.nextInt(100);
+						if(i<50)
+							step=Step.LEFT;
+						else
+							step=Step.DOWN;
+					}
+					else if(goByLine<2+Math.abs(currentHorizontalStep))
 						step=Step.DOWN;
 					else
 						step=Step.LEFT;
@@ -193,7 +239,14 @@ public class GenerateStepsAlgorytm {
 					step=Step.LEFT;
 				else{
 					int goByLine=  networkSize-Math.abs(currentVerticalStep);
-					if(goByLine<2+Math.abs(currentVerticalStep))
+					if(goByLine==2+Math.abs(currentVerticalStep)){
+						int i=rand.nextInt(100);
+						if(i<50)
+							step=Step.LEFT;
+						else
+							step=Step.TOP;
+					}
+					else if(goByLine<2+Math.abs(currentVerticalStep))
 						step=Step.LEFT;
 					else
 						step=Step.TOP;
@@ -206,6 +259,13 @@ public class GenerateStepsAlgorytm {
 					step=Step.TOP;
 				else{
 					int goByLine= networkSize - Math.abs(currentHorizontalStep);
+					if(goByLine==2+Math.abs(currentHorizontalStep)){
+						int i=rand.nextInt(100);
+						if(i<50)
+							step=Step.LEFT;
+						else
+							step=Step.TOP;
+					}
 					if(goByLine<2+Math.abs(currentHorizontalStep))
 						step=Step.TOP;
 					else

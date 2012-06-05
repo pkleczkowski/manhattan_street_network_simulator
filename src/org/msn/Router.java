@@ -95,6 +95,7 @@ public class Router {
 				break;
 			case 0 :
 				parentNetwork.updatelostPackets();
+				System.out.println("KURWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 				break;
 			default :
 				System.out.println("Error. No such interface");
@@ -209,6 +210,7 @@ public class Router {
 					randomAddress = new Address(randomX,randomY);
 				}
 				while (randomAddress.getX()==this.routerAddress.getX() && randomAddress.getY()==this.routerAddress.getY());
+				System.out.println("Adres nowego pakietu: "+randomAddress.getAddress());
 				if (routType.equals("Dead reckoning"))
 					fifo.offer(new Packet(randomAddress, this.routerAddress, ttl, netSize, true));
 				else

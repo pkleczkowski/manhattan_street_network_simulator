@@ -18,9 +18,12 @@ public class Buffer {
 	
 	public void offer(Packet packet) {
 		//if (fifo.size()) //TODO
+		
 		if (fifo.size()==bufferSize) {
 			//odrzuc pakiet
+			System.out.println("fifo: "+fifo.size() + " "+ bufferSize);
 			updateLost();
+			//fifo.clear();
 		}
 		else if (fifo.size()>bufferSize) {
 			System.out.println("Coœ jest kuTwa nie tak! za duzo w buforach!");
