@@ -19,16 +19,26 @@ public class DeflectionRoutingTable implements RoutingTable {
 	        	   return 1;
 	           else if (!this.parentRouter.b2.isPacketInBufferCell(1)) 
 	        	   return 2;
-	           else return 0; //odrzuc pakiet
+	           else {
+	        	   System.out.println("TUTAJ TKWI SZKOP POCHOWANY");
+	        	   return 0; //odrzuc pakiet
+	           }
 		}
 		else if (step==2) {
 			if (!this.parentRouter.b2.isPacketInBufferCell(1)) 
 	        	   return 2;
 	           else if (!this.parentRouter.b1.isPacketInBufferCell(1)) 
 	        	   return 1;
-	           else return 0; //odrzuc pakiet
+	           else {
+	        	   System.out.println("TUTAJ TKWI SZKOP POCHOWANY");
+	        	   return 0; //odrzuc pakiet
+	           }
 		}
-		else return 0;
+		else {
+			System.out.println("AHA!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			return 0;
+			
+		}
 		
 		
 	}

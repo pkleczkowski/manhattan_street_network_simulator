@@ -69,7 +69,7 @@ public NetworkGraphPanel(MSNmain parent) {
 	}
 	
 	public synchronized void paint(Graphics g) {
-		if (netSize < 8) {
+		if (netSize < 128) {
 			int k=2;
 			if (netSize < 5) {
 				k = 2 * ( 6 - netSize);

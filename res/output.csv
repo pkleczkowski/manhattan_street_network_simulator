@@ -1,3 +1,3 @@
 Network Size [N];New Packets Avr Delay [Pavr];Bufor Size [L];Time to Live [TTL];Routing Type;Delay;Delay Var;Received Packets;Lost Packets;Hops Avr
-7;6;8;32;Shortest path;3.97;11.88;719;7;3.27;
-7;6;8;32;Dead reckoning;8.32;88.89;1377;105;4.23;
+64;30;4;128;Deflection routing;19.9;1247.88;15049;7765;19.9;
+64;40;4;128;Deflection routing;26.45;603.41;7490;1829;26.45;

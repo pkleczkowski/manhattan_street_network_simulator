@@ -23,7 +23,7 @@ public class Buffer {
 			//odrzuc pakiet
 			System.out.println("fifo: "+fifo.size() + " "+ bufferSize);
 			updateLost();
-			//fifo.clear();
+			//fifo = new LinkedList<Packet>();
 		}
 		else if (fifo.size()>bufferSize) {
 			System.out.println("Coœ jest kuTwa nie tak! za duzo w buforach!");

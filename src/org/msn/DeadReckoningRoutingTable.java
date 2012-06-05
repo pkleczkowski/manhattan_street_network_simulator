@@ -42,7 +42,7 @@ public class DeadReckoningRoutingTable implements RoutingTable {
 					}
 				}
 				else {
-					if (packet.getDRheader()[0]==1) {//czy preferencja jest zeby isc w prawo jak tak to sprawdzam czy b2 idzie w prawo
+					if (packet.getDRheader()[1]==1) {//czy preferencja jest zeby isc w prawo jak tak to sprawdzam czy b2 idzie w prawo
 						if (this.parentRouter.b2.getNextHopAddress().getY()>this.parentRouter.getAddress().getY())
 							return 2;
 						else //no to niech idzie po kolumnie i niech nastepny sie martwi

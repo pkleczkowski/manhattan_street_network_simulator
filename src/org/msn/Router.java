@@ -75,13 +75,13 @@ public class Router {
 		if (tmp!=null) 
 			forwardPacket(tmp);
 		//System.out.println("Router: "+this.address.getAddress()+" po forward sprawdzam bufory: b1 - "+this.b1.fifo.size() + " b2 - "+this.b2.fifo.size());
-		if (this.b1.fifo.size()>0 || this.b2.fifo.size()>0)
-			System.out.println("Router: "+this.address.getAddress()+" b1 - "+this.b1.fifo.size() + " b2 - "+this.b2.fifo.size());
+		//if (this.b1.fifo.size()>0 || this.b2.fifo.size()>0)
+			//System.out.println("Router: "+this.address.getAddress()+" b1 - "+this.b1.fifo.size() + " b2 - "+this.b2.fifo.size());
 	}
 	
 	private void forwardPacket(Packet packet) {
 		int interfaceID = routingTable.getOutputInterfaceId(packet);
-		System.out.println("Ja: "+this.address.getAddress() + " routuje pakiet z adresem: "+packet.getDestinationAddress().getAddress() + " to: "+interfaceID+" (1-b1;2-b2;3-FCout)");
+		//System.out.println("Ja: "+this.address.getAddress() + " routuje pakiet z adresem: "+packet.getDestinationAddress().getAddress() + " to: "+interfaceID+" (1-b1;2-b2;3-FCout)");
 		switch (interfaceID) {
 			case 1 :
 				b1.offer(packet);
