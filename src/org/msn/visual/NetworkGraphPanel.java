@@ -47,7 +47,7 @@ public NetworkGraphPanel(MSNmain parent) {
 	    while (true) {
 	    	repaint();
 	             try {
-	                Thread.sleep(50);
+	                Thread.sleep(100);
 	            } catch (InterruptedException ie) {
 	            	ie.printStackTrace();
 	            }
